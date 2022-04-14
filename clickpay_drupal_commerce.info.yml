@@ -1,0 +1,8 @@
+name: Clickpay Drupal Commerce
+type: module
+description: 'Provides ClickPay  payment integration for Drupal Commerce 2.x.'
+package: Commerce
+core: 8.x
+dependencies:
+  - commerce:commerce_payment
+version: '1.2.3'

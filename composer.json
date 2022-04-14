@@ -1,0 +1,17 @@
+{
+    "name": "paytabscom/clickpay_drupal_commerce",
+    "type": "drupal-module",
+    "description": "Clickpay payment integration for Drupal Commerce 2.x.",
+    "authors": [
+        {
+            "name": "Walaa Elsaeed",
+            "email": "w.elsaeed@paytabs.com"
+        }
+    ],
+    "homepage": "https://github.com/paytabscom/paytabs-drupal-commerce/tree/clickpay",
+    "license": "GPL-2.0+",
+    "require": {
+        "drupal/commerce": "^2.0"
+    },
+    "minimum-stability": "dev"
+}

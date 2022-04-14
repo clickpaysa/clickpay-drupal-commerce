@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.profile.telephone
+    - profile.type.customer
+  module:
+    - core
+id: profile.customer.telephone
+field_name: telephone
+entity_type: profile
+bundle: customer
+label: Phone
+description: 'International phone number format, example: +359888888888'
+required: true
+translatable: false
+default_value: { }
+default_value_callback: ''
+settings: { }
+field_type: telephone
