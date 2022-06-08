@@ -135,7 +135,9 @@ class ClickpayOffsiteRedirect extends OffsitePaymentGatewayBase implements Suppo
                 'server_key' => '',
                 'region' => '',
                 'pay_page_mode' => '',
+                'iframe' => '',
                 'complete_order_status' => '',
+                'hide_shipping_address' => '',
             ] + parent::defaultConfiguration();
     }
 
@@ -182,6 +184,30 @@ class ClickpayOffsiteRedirect extends OffsitePaymentGatewayBase implements Suppo
             '#default_value' => $this->configuration['pay_page_mode'],
         ];
 
+        $form['iframe'] =[
+            '#type' => 'select',
+            '#required' => TRUE,
+            '#title' => $this->t('Integration Mode'),
+            '#description' => $this->t('The mode you need to integrate with '),
+            '#options' => [
+                'false' => $this->t('Redirect outside the site'),
+                'true' => $this->t('Iframe inside the site'),
+            ],
+            '#default_value' => $this->configuration['integration_mode'],
+        ];
+
+        $form['hide_shipping_address'] =[
+            '#type' => 'select',
+            '#required' => FALSE,
+            '#title' => $this->t('Hide shipping address'),
+            '#description' => $this->t('Hide shipping address'),
+            '#options' => [
+                'false' => $this->t('Show shipping address'),
+                'true' => $this->t('Hide shipping address'),
+            ],
+            '#default_value' => $this->configuration['hide_shipping_address'],
+        ];
+
         $form['complete_order_status'] = [
             '#type' => 'select',
             '#required' => TRUE,
@@ -211,6 +237,8 @@ class ClickpayOffsiteRedirect extends OffsitePaymentGatewayBase implements Suppo
             $this->configuration['server_key'] = $values['server_key'];
             $this->configuration['region'] = $values['region'];
             $this->configuration['pay_page_mode'] = $values['pay_page_mode'];
+            $this->configuration['iframe'] = $values['iframe'];
+            $this->configuration['hide_shipping_address'] = $values['hide_shipping_address'];
             $this->configuration['complete_order_status'] = $values['complete_order_status'];
         }
     }
@@ -227,6 +255,8 @@ class ClickpayOffsiteRedirect extends OffsitePaymentGatewayBase implements Suppo
             $this->configuration['server_key'] = $values['server_key'];
             $this->configuration['region'] = $values['region'];
             $this->configuration['pay_page_mode'] = $values['pay_page_mode'];
+            $this->configuration['iframe'] = $values['iframe'];
+            $this->configuration['hide_shipping_address'] = $values['hide_shipping_address'];
             $this->configuration['complete_order_status'] = $values['complete_order_status'];
         }
     }

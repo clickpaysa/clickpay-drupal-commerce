@@ -102,6 +102,8 @@ class ClickpayOffsiteForm extends BasePaymentOffsiteForm
         $plugin_info = Yaml::parseFile(DRUPAL_ROOT . '/modules/contrib/clickpay_drupal_commerce/clickpay_drupal_commerce.info.yml');
         $plugin_version = $plugin_info['version'];
         $payment_page_mode = $config['pay_page_mode'];
+        $frammed = $config['iframe'] == 'true' ? true : false;
+        $hide_shipping = $config['hide_shipping_address'] == 'true' ? true : false;
 
         $clickpay_core
             ->set01PaymentCode('all') // 'card', 'stcpay', 'amex' ...
@@ -112,7 +114,8 @@ class ClickpayOffsiteForm extends BasePaymentOffsiteForm
             ->set06HideShipping(false)
             ->set07URLs($form['#return_url'], $call_back)
             ->set08Lang($language)
-            ->set09Framed(false)
+            ->set09Framed($frammed)
+            ->set06HideShipping($hide_shipping)
             ->set99PluginInfo('DrupalCommerce',$platform_version,$plugin_version);
 
 
@@ -124,7 +127,18 @@ class ClickpayOffsiteForm extends BasePaymentOffsiteForm
             $form['commerce_message']['#action'] = $redirect_url;
             $redirect_method = 'post';
 
-            return $this->buildRedirectForm($form, $form_state, $redirect_url, $pp_params, $redirect_method);
+            if ($frammed === true)
+            {
+                $form['#attached']['drupalSettings']['clickpay_drupal_commerce'] = $redirect_url;
+                $form['#attached']['drupalSettings']['return_url'] = $form['#return_url'];
+                $form['#attached']['library'][] = 'clickpay_drupal_commerce/checkout';
+
+                // No need to call buildRedirectForm(), as we embed an iframe.
+                return $form;
+            }else
+            {
+                return $this->buildRedirectForm($form, $form_state, $redirect_url, $pp_params, $redirect_method);
+            }
         } else {
             \Drupal::messenger()->addStatus($this->t('Something went wrong, please try again later'));
             $this->logger->error('failed to create payment page for order : and response from Clickpay is :' . $response);
